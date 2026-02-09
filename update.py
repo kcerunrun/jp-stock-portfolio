@@ -46,9 +46,11 @@ for ticker in df["Ticker"]:
 
         info = stock.info
         dividend = info.get("dividendRate")
-        dividend_yield = info.get("dividendYield")
-        if dividend_yield is not None:
-            dividend_yield *= 100
+dividend_yield = info.get("dividendYield")
+
+if dividend_yield is not None:
+    dividend_yield = round(dividend_yield * 100, 2)  # パーセント化
+
 
     except Exception:
         today_close = None
