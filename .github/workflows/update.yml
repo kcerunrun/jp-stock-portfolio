@@ -1,1 +1,27 @@
-name: Update JP Stocks on: schedule: - cron: '0 0 * * *' # JST 9:00 に相当 workflow_dispatch: jobs: update: runs-on: ubuntu-latest steps: - uses: actions/checkout@v3 - name: Set up Python uses: actions/setup-python@v4 with: python-version: '3.10' - name: Install dependencies run: | pip install gspread oauth2client yfinance pandas - name: Run script env: GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} SHEET_ID: ${{ secrets.SHEET_ID }} run: python update.py
+name: Update JP Stocks
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install gspread oauth2client yfinance pandas
+
+      - name: Run script
+        env:
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: python update.py
