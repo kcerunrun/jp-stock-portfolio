@@ -34,4 +34,7 @@ for ticker in df["Ticker"]:
 
 # シートに書き込み
 for i, price in enumerate(prices, start=2):
-    sheet.update(f"E{i}", float(price))
+    if price is not None:
+        sheet.update(f"E{i}", [[float(price)]])
+    else:
+        sheet.update(f"E{i}", [["N/A"]])
