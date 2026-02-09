@@ -66,14 +66,21 @@ for ticker in df["Ticker"]:
     yields.append(dividend_yield)
 
 # シートに書き込み
+# まとめて書き込むデータを作成
+write_values = []
+
 for i in range(len(df)):
-    row = i + 2  # 2行目から
+    row = [
+        prices[i] if prices[i] is not None else "N/A",
+        prev_closes[i] if prev_closes[i] is not None else "N/A",
+        changes[i] if changes[i] is not None else "N/A",
+        dividends[i] if dividends[i] is not None else "N/A",
+        f"{yields[i]}%" if yields[i] is not None else "N/A"
+    ]
+    write_values.append(row)
 
-    def write(col, value):
-        sheet.update(f"{col}{row}", [[value if value is not None else "N/A"]])
-
-    write("E", prices[i])
-    write("F", prev_closes[i])
-    write("G", changes[i])
-    write("H", dividends[i])
-    write("I", yields[i])
+# E2:I(最終行) に一括書き込み
+sheet.update(
+    range_name=f"E2:I{len(df)+1}",
+    values=write_values
+)
