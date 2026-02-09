@@ -79,7 +79,6 @@ for i in range(len(df)):
     ]
     write_values.append(row)
 
-# E2:I(最終行) に一括書き込み
 sheet.update(
     range_name=f"E2:I{len(df)+1}",
     values=write_values
