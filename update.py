@@ -22,6 +22,8 @@ sheet = client.open_by_key(sheet_id).worksheet("Portfolio")
 # データ読み込み
 data = sheet.get_all_records()
 df = pd.DataFrame(data)
+print(df.columns)
+
 
 # 株価更新
 prices = []
