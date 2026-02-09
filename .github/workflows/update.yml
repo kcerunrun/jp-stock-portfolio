@@ -2,8 +2,14 @@ name: Update JP Stocks
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    # 前場（9:00〜11:30 JST）
+    - cron: "*/5 0-2 * * 1-5"
+
+    # 後場（12:30〜15:00 JST）
+    - cron: "*/5 3-6 * * 1-5"
+
   workflow_dispatch:
+
 
 
 jobs:
