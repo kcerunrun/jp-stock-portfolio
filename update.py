@@ -79,6 +79,12 @@ for i in range(len(df)):
     ]
     write_values.append(row)
 
+print("prices:", prices)
+print("prev_closes:", prev_closes)
+print("changes:", changes)
+print("dividends:", dividends)
+print("yields:", yields)
+
 sheet.update(
     range_name=f"E2:I{len(df)+1}",
     values=write_values
