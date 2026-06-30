@@ -4,6 +4,14 @@ import yfinance as yf
 import os
 import pandas as pd
 
+def sanitize(v):
+    if v is None:
+        return "N/A"
+    if isinstance(v, float):
+        if math.isnan(v) or math.isinf(v):
+            return "N/A"   # ← ここは文字列にしておけば安全
+    return v
+
 # Google Sheets 認証
 scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"]
@@ -71,19 +79,13 @@ write_values = []
 
 for i in range(len(df)):
     row = [
-        prices[i] if prices[i] is not None else "N/A",
-        prev_closes[i] if prev_closes[i] is not None else "N/A",
-        changes[i] if changes[i] is not None else "N/A",
-        dividends[i] if dividends[i] is not None else "N/A",
-        f"{yields[i]}%" if yields[i] is not None else "N/A"
+        sanitize(prices[i]),
+        sanitize(prev_closes[i]),
+        sanitize(changes[i]),
+        sanitize(dividends[i]),
+        f"{sanitize(yields[i])}%"
     ]
     write_values.append(row)
-
-print("prices:", prices)
-print("prev_closes:", prev_closes)
-print("changes:", changes)
-print("dividends:", dividends)
-print("yields:", yields)
 
 sheet.update(
     range_name=f"E2:I{len(df)+1}",
